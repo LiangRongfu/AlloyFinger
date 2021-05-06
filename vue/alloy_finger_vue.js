@@ -9,7 +9,7 @@
     install: function(Vue, options) {
       options = options || {};
       var AlloyFinger = window.AlloyFinger || options.AlloyFinger;
-      var isVue2 = !!(Vue.version.substr(0,1) == 2);
+      var VueVersion = Vue.version.substr(0,1) == 2;
 
       if(!AlloyFinger) {
         throw new Error('you need include the AlloyFinger!');
@@ -98,7 +98,13 @@
         } 
       };
 
-      if(isVue2) {
+      if(VueVersion == 3) {
+        directiveOpts = {
+          beforeMount: doBindEvent,
+          update: doBindEvent,
+          unmounted: doUnbindEvent
+        };
+      } else if(VueVersion == 2) {
         directiveOpts = {
           bind: doBindEvent,
           update: doBindEvent,
